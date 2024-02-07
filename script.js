@@ -1,23 +1,24 @@
-const apiKey = "AndreasHemligaNyckel";
-const url = `https://andreasb.se/gurka/api/?apikey=${apiKey}`;
+const API_KEY = "AndreasHemligaNyckel";
+const API_URL = `https://andreasb.se/gurka/api/?apikey=${API_KEY}`;
 
-const wrapper = document.querySelector(".wrapper");
+const wrapperElement = document.querySelector(".wrapper");
 async function fetchResult() {
   try {
-    const response = await fetch(url);
-    const data = await response.json();
+    const response = await fetch(API_URL);
+    const gameData = await response.json();
 
     // Sort by newest game first
-    const newestFirst = data.games.reverse();
+    const sortedGames = gameData.games.reverse();
     // Loop through each game
-    for (const game of newestFirst) {
+    sortedGames.forEach((game) => {
       const { gameID, date } = game;
       const gameDiv = createGameDiv(date);
 
       // Filter players for this game
-      const players = data.game_results.filter(
+      const players = gameData.game_results.filter(
         (result) => result.gameID === gameID
       );
+
       // Sort each game by result
       // players.sort((a, b) => b.result - a.result);
       // Loop through players and append to gameDiv
@@ -27,7 +28,7 @@ async function fetchResult() {
       let topScore = getMaxScore(players);
 
       players.forEach((player) => {
-        const playerName = getPlayerName(data.users, player.userID);
+        const playerName = getPlayerName(gameData.users, player.userID);
         const playerDiv = createPlayerDiv(playerName);
         const scoreDiv = createScoreDiv(
           player.result,
@@ -39,8 +40,8 @@ async function fetchResult() {
       });
       gameDiv.appendChild(scoreContainer);
       gameDiv.appendChild(playerContainer);
-      wrapper.appendChild(gameDiv);
-    }
+      wrapperElement.appendChild(gameDiv);
+    });
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -108,16 +109,25 @@ function createPlayerDiv(name) {
 }
 function getMaxScore(players) {
   let topScore = [];
+  // Fetches the results for that particular game
   players.forEach((score) => {
     topScore.push(parseFloat(score.result));
   });
+  // Sort from lowest to highest
   topScore.sort((a, b) => a - b);
+
+  // Fetch the lowest score and turns it to a positive number
   let lowest = topScore[0] * -1;
+  // Fetch the highest score
   let highest = topScore[topScore.length - 1];
+
+  // Sets numberRange to lowest
   let numberRange = lowest;
+  // If highscore is more than a positive lowscore, change numberRange to highest
   if (highest > lowest) {
     numberRange = highest;
   }
+  // Turns maxRange to even 5 over the score (if it's not an even 5)
   if (numberRange % 5 != 0) {
     return parseFloat(numberRange) + 5 - (numberRange % 5);
   } else {

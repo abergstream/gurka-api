@@ -91,7 +91,7 @@ body {
   background: linear-gradient(
     0deg,
     rgba(0, 175, 3, 1) 0%,
-    rgba(0, 223, 35, 1) 100%
+    rgba(0, 223, 35, 1) 60px
   );
 }
 .score-bar--minus {
@@ -100,7 +100,7 @@ body {
   background: linear-gradient(
     180deg,
     rgba(184, 0, 0, 1) 0%,
-    rgba(223, 0, 0, 1) 100%
+    rgba(223, 0, 0, 1) 60px
   );
 }
 
@@ -111,7 +111,7 @@ body {
 }
 @media screen and (max-width: 992px) {
   html {
-    font-size: 8px;
+    font-size: 7px;
   }
   body {
     margin: 1rem;
@@ -125,5 +125,23 @@ body {
   .score-row {
     box-shadow: none;
     gap: 1rem;
+  }
+  .score-bar--plus {
+    align-items: flex-start;
+    bottom: 50%;
+    background: linear-gradient(
+      0deg,
+      rgba(0, 175, 3, 1) 0%,
+      rgba(0, 223, 35, 1) 30px
+    );
+  }
+  .score-bar--minus {
+    align-items: flex-end;
+    top: 50%;
+    background: linear-gradient(
+      180deg,
+      rgba(184, 0, 0, 1) 0%,
+      rgba(223, 0, 0, 1) 30px
+    );
   }
 }
