@@ -18,19 +18,22 @@ async function fetchResult() {
       const players = data.game_results.filter(
         (result) => result.gameID === gameID
       );
-
       // Sort each game by result
       // players.sort((a, b) => b.result - a.result);
       // Loop through players and append to gameDiv
-      const scoreContainer = createContainer("score-row");
-      const playerContainer = createContainer("players-row");
+      const scoreContainer = createContainer("score-row", players.length);
+      const playerContainer = createContainer("players-row", players.length);
 
-      let topScore = getMax(players);
-      console.log(topScore);
+      let topScore = getMaxScore(players);
+
       players.forEach((player) => {
         const playerName = getPlayerName(data.users, player.userID);
         const playerDiv = createPlayerDiv(playerName);
-        const scoreDiv = createScoreDiv(player.result, topScore);
+        const scoreDiv = createScoreDiv(
+          player.result,
+          topScore,
+          players.length
+        );
         scoreContainer.appendChild(scoreDiv);
         playerContainer.appendChild(playerDiv);
       });
@@ -56,8 +59,12 @@ function createGameDiv(date) {
 }
 function createScoreDiv(content, scoreRange) {
   const divContainer = document.createElement("div");
+  divContainer.classList.add("score-container");
+  const scoreBarDiv = document.createElement("div");
   const scoreDiv = document.createElement("div");
-  // console.log(scoreRange);
+  scoreDiv.classList.add("score");
+  scoreDiv.innerText = content;
+
   const percentPerScore = 100 / scoreRange;
   let score = content;
   let cssClass = "score-bar--plus";
@@ -67,20 +74,30 @@ function createScoreDiv(content, scoreRange) {
   }
 
   const heightPercentage = (percentPerScore * parseFloat(score)) / 2;
-  scoreDiv.style.height = heightPercentage + "%";
-  scoreDiv.classList.add("score-bar", cssClass);
-  scoreDiv.innerText = content;
+  scoreBarDiv.style.height = heightPercentage + "%";
+  scoreBarDiv.classList.add("score-bar", cssClass);
+
+  if (content < 0) {
+    scoreDiv.style.top = 52 + parseFloat(heightPercentage) + "%";
+  } else {
+    scoreDiv.style.bottom = 52 + parseFloat(heightPercentage) + "%";
+  }
+  // scoreBarDiv.innerText = content;
+  divContainer.appendChild(scoreBarDiv);
   divContainer.appendChild(scoreDiv);
-  divContainer.classList.add("score-container");
+
   return divContainer;
 }
 function getPlayerName(users, userID) {
   const user = users.find((user) => user.userID === userID);
   return user ? user.name : "Unknown Player";
 }
-function createContainer(cssClass) {
+function createContainer(cssClass, numberOfPlayers) {
   const container = document.createElement("div");
   container.classList.add(cssClass);
+  if (numberOfPlayers) {
+    container.classList.add("grid-" + numberOfPlayers);
+  }
   return container;
 }
 function createPlayerDiv(name) {
@@ -89,7 +106,7 @@ function createPlayerDiv(name) {
   playerDiv.classList.add("player");
   return playerDiv;
 }
-function getMax(players) {
+function getMaxScore(players) {
   let topScore = [];
   players.forEach((score) => {
     topScore.push(parseFloat(score.result));

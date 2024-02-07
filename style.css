@@ -4,39 +4,77 @@ html {
   font-size: 10px;
 }
 body {
+  margin: 2rem;
   min-height: 100svh;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.6rem;
+  background: linear-gradient(0deg, #14213d, rgba(36, 41, 65, 1) 100%);
   background-color: #333;
   font-family: Roboto;
 }
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: min(800px, 100%);
+  gap: 4rem;
+  /* background-color: #14213d; */
+  border-radius: 1rem;
+  padding: 2rem;
+  color: #dadada;
+}
+.score-row {
+  display: grid;
+  background: linear-gradient(
+    #46aedb,
+    #3f87a6 49.97%,
+    rgba(255, 255, 255, 0.75) 50%,
+    #3f87a6 50.03%,
+    #346a81
+  );
+  padding: 3rem 1rem;
+  border-radius: 1rem;
+  gap: 3rem;
+  box-shadow: 0px 0px 7px -2px #fca311;
+}
 .players-row {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   margin: 1rem 0;
 }
 .player {
   text-align: center;
 }
-.score-row {
-  display: grid;
+
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.grid-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+.grid-6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+.grid-7 {
   grid-template-columns: repeat(7, 1fr);
-  background: linear-gradient(
-    #46aedb,
-    #3f87a6 49.8%,
-    #fff 50%,
-    #3f87a6 50.2%,
-    #346a81
-  );
-  padding: 1rem;
-  border-radius: 1rem;
 }
 .score-container {
   height: 150px;
   position: relative;
+  color: #000;
+}
+.score {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  font-size: 2rem;
 }
 .score-bar {
   position: absolute;
@@ -65,16 +103,29 @@ body {
     rgba(223, 0, 0, 1) 100%
   );
 }
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  width: min(800px, 100%);
-  gap: 2rem;
-  background-color: #fff;
-  border-radius: 1rem;
-  padding: 2rem;
-}
+
 .date {
   font-weight: bold;
   grid-column: span 7;
+  margin: 1rem;
+}
+@media screen and (max-width: 992px) {
+  html {
+    font-size: 8px;
+  }
+  body {
+    margin: 1rem;
+  }
+  .wrapper {
+    padding: 0;
+  }
+  .score-container {
+    height: 75px;
+  }
+  .score-row {
+    box-shadow: none;
+    gap: 1rem;
+  }
+  .players-row {
+  }
 }
