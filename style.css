@@ -4,7 +4,6 @@ html {
   font-size: 10px;
 }
 body {
-  margin: 0;
   min-height: 100svh;
   display: flex;
   justify-content: center;
@@ -13,15 +12,63 @@ body {
   background-color: #333;
   font-family: Roboto;
 }
-.game {
+.players-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-size: 1.2rem;
+  margin: 1rem 0;
+}
+.player {
+  text-align: center;
+}
+.score-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: linear-gradient(
+    #46aedb,
+    #3f87a6 49.8%,
+    #fff 50%,
+    #3f87a6 50.2%,
+    #346a81
+  );
+  padding: 1rem;
+  border-radius: 1rem;
+}
+.score-container {
+  height: 150px;
+  position: relative;
+}
+.score-bar {
+  position: absolute;
+  left: 50%;
+  width: 90%;
+  transform: translate(-50%, 0);
+  background-color: red;
   display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
+  justify-content: center;
+}
+.score-bar--plus {
+  align-items: flex-start;
+  bottom: 50%;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 175, 3, 1) 0%,
+    rgba(0, 223, 35, 1) 100%
+  );
+}
+.score-bar--minus {
+  align-items: flex-end;
+  top: 50%;
+  background: linear-gradient(
+    180deg,
+    rgba(184, 0, 0, 1) 0%,
+    rgba(223, 0, 0, 1) 100%
+  );
 }
 .wrapper {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   width: min(800px, 100%);
-  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   background-color: #fff;
   border-radius: 1rem;
@@ -29,4 +76,5 @@ body {
 }
 .date {
   font-weight: bold;
+  grid-column: span 7;
 }
